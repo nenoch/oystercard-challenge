@@ -24,6 +24,6 @@ describe Oystercard do
   end
   it 'should deduct fare from balance' do
     subject.deduct(10)
-    expect(subject.balance).to eq - 10
+    expect(subject.balance).to eq -10
   end
 end
