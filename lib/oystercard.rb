@@ -19,4 +19,8 @@ attr_reader :balance, :money
     balance + money > MAX_BALANCE
   end
 
+  def deduct(fare)
+    @balance -= fare
+  end
+
 end

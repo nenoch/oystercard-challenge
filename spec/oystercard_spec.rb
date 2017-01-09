@@ -18,4 +18,12 @@ describe Oystercard do
     end
 
   end
+
+  describe '#deduct' do
+    it { is_expected.to respond_to(:deduct).with(1).argument }
+  end
+  it 'should deduct fare from balance' do
+    subject.deduct(10)
+    expect(subject.balance).to eq - 10
+  end
 end
