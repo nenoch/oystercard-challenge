@@ -2,6 +2,7 @@ require "./lib/oystercard"
 
 describe Oystercard do
   subject(:oystercard) { described_class.new }
+  let (:station) {double :bank}
 
   it 'should show oystercard balance' do
   expect(subject.balance).to eq(0)
@@ -39,28 +40,30 @@ describe Oystercard do
 end
 
   describe '#touch_in' do
-
-    it {is_expected.to respond_to(:touch_in)}
+    it {is_expected.to respond_to(:touch_in).with(1).argument}
 
     it "should change journey_status to true" do
-      card = Oystercard.new
-      card.top_up(Oystercard::MIN_BALANCE)
-      card.touch_in
-      expect(card).to be_in_journey
+      subject.top_up(Oystercard::MIN_BALANCE)
+      subject.touch_in(station)
+      expect(subject).to be_in_journey
     end
-
     it 'raises an error if balance unsufficient' do
-      expect{subject.touch_in}.to raise_error "Unsuffient balance. Top up to at least #{Oystercard::MIN_BALANCE}!"
+      expect{subject.touch_in("Bank")}.to raise_error "Unsuffient balance. Top up to at least #{Oystercard::MIN_BALANCE}!"
+    end
+    it "should allow the card to remember the station after touching in" do
+
+      subject.top_up(Oystercard::MIN_BALANCE)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq(station)
     end
   end
 
   describe '#touch_out' do
     it {is_expected.to respond_to(:touch_out)}
     it "should change journey_status to false" do
-      card = Oystercard.new
-      card.top_up(Oystercard::MIN_BALANCE)
-      card.touch_in
-      card.touch_out
+      subject.top_up(Oystercard::MIN_BALANCE)
+      subject.touch_in(station)
+      subject.touch_out
       should_not be_in_journey
     end
 
