@@ -1,4 +1,5 @@
 require "./lib/oystercard"
+
 describe Oystercard do
   subject(:oystercard) { described_class.new }
 
@@ -19,13 +20,15 @@ describe Oystercard do
 
   end
 
-  describe '#deduct' do
-    it { is_expected.to respond_to(:deduct).with(1).argument }
-  end
-  it 'should deduct fare from balance' do
-    subject.deduct(10)
-    expect(subject.balance).to eq -10
-  end
+  # describe '#deduct' do
+  #
+  #   it { is_expected.to respond_to(:deduct).with(1).argument }
+  #   end
+  #
+  #   it 'should deduct fare from balance' do
+  #     subject.deduct(10)
+  #     expect(subject.balance).to eq -10
+  #   end
 
   describe '#in_journey?' do
     it {is_expected.to respond_to(:in_journey?)}
@@ -59,6 +62,10 @@ end
       card.touch_in
       card.touch_out
       should_not be_in_journey
+    end
+
+    it 'deduct minimum fare at the end of a journey' do
+      expect {subject.touch_out}.to change{subject.balance}.by(-Oystercard::MIN_BALANCE)
     end
   end
 

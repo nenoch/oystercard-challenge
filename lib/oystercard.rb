@@ -23,10 +23,6 @@ attr_reader :balance, :money, :journey_status
     balance < MIN_BALANCE
   end
 
-  def deduct(fare)
-    @balance -= fare
-  end
-
   def in_journey?
     journey_status == true
   end
@@ -37,7 +33,13 @@ attr_reader :balance, :money, :journey_status
   end
 
   def touch_out
+    deduct(MIN_BALANCE)
     @journey_status = false
+  end
+
+  private
+  def deduct(fare)
+    @balance -= fare
   end
 
 end
