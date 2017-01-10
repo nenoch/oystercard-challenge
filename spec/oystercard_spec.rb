@@ -24,6 +24,25 @@ describe Oystercard do
   end
   it 'should deduct fare from balance' do
     subject.deduct(10)
-    expect(subject.balance).to eq - 10
+    expect(subject.balance).to eq -10
   end
+describe '#in_journey?' do
+  it {is_expected.to respond_to(:in_journey?)}
+  it "should return either true or false" do
+#allow(subject).to receive(:in_journey?) {false}
+expect(subject.in_journey?).to eq(false)
+  end
+end
+describe '#touch_in' do
+  it {is_expected.to respond_to(:touch_in)}
+  it "should change journey_status to true" do
+  card = Oystercard.new
+  card.touch_in
+  expect(card).to be_in_journey
+end
+end
+
+
+
+
 end
