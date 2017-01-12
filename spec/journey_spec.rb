@@ -1,13 +1,13 @@
 require 'journey'
 
 describe Journey do
-  subject(:journey) { described_class.new }
+  # subject(:journey) { described_class.new }
+  let (:entry_station) {double :bank}
+  let (:exit_station) {double :victoria}
 
   it "allows Journey to record an entry station" do
-    card = Oystercard.new
-    card.top_up(10)
-    card.touch_in("Victoria")
-    expect(subject.entry_station).to eq "Victoria"
+    # subject.start_journey(entry_station)
+    expect(subject.start_journey(entry_station)).to eq entry_station
   end
 
 end
