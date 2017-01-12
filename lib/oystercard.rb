@@ -12,13 +12,14 @@ attr_reader :balance, :journeys, :current_journey
   end
 
   def top_up(money)
-  raise "the maximum allowed balance is #{MAX_BALANCE} !" if over_limit?(@balance + money)
-  @balance += money
+    raise "the maximum allowed balance is #{MAX_BALANCE} !" if over_limit?(@balance + money)
+    @balance += money
   end
 
   def touch_in(station)
     raise "Unsufficient balance. Top up to at least #{MIN_BALANCE}!" if below_minimum?
     current_journey.start(station)
+    deduct
   end
 
   # def in_journey?
@@ -26,15 +27,15 @@ attr_reader :balance, :journeys, :current_journey
   # end
 
   def touch_out(exit_station)
-    deduct(MIN_BALANCE)
     @current_journey.end(exit_station)
+    deduct
     @journeys << @current_journey
-    end
+  end
 
   private
 
-  def deduct(fare)
-    @balance -= fare
+  def deduct
+    @balance -= @current_journey.fare
   end
 
   def over_limit?(possible_balance)
