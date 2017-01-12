@@ -28,6 +28,10 @@ PENALTY_FARE = 6
     @exit_station != nil && @entry_station != nil
   end
 
+  # def in_journey?
+  #   @exit_station == nil && @entry_station != nil
+  # end
+
   def fare
     complete? ? MIN_FARE : PENALTY_FARE
   end
